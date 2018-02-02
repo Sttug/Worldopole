@@ -79,6 +79,15 @@ switch ($request) {
 		$values[] = $data->total;
 
 
+		// Active Raids
+		// -----------
+
+		$req = "SELECT COUNT(*) AS total FROM raid WHERE start <= UTC_TIMESTAMP AND  end >= UTC_TIMESTAMP()";
+		$result = $mysqli->query($req);
+		$data = $result->fetch_object();
+
+		$values[] = $data->total;
+
 
 		// Team battle
 		// -----------
@@ -808,6 +817,10 @@ switch ($request) {
 
 			foreach ($entries as $idx => $entry) {
 				$entry->total_cp_diff = 0;
+<<<<<<< HEAD
+=======
+				$entry->only_cp_changed = true;
+>>>>>>> ad2a9d3ab5992bee14c13b09ab43581dc9a751a6
 				if ($idx < count($entries) - 1) {
 					$next_entry = $entries[$idx+1];
 					$entry->total_cp_diff = $entry->total_cp - $next_entry->total_cp;
@@ -822,6 +835,12 @@ switch ($request) {
 					foreach ($old_pokemon as $pkm) {
 						$next_entry->pokemon[$pkm]->class = 'old';
 					}
+<<<<<<< HEAD
+=======
+					if ($entry->team_id != $next_entry->team_id|| $entry->pokemon_uids != $next_entry->pokemon_uids) {
+						$entry->only_cp_changed = false;
+					}
+>>>>>>> ad2a9d3ab5992bee14c13b09ab43581dc9a751a6
 				}
 				unset($entry->pokemon_uids);
 			}
